@@ -60,5 +60,15 @@ public class TraceFilter implements Filter {
             String headerValue = request.getHeader(headerName);
             log.info("Incoming Request Header - {}: {}", headerName, headerValue);
         }
+
+        // Read and print the request body
+        StringBuilder requestBody = new StringBuilder();
+        try (BufferedReader reader = request.getReader()) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                requestBody.append(line);
+            }
+        }
+        log.info("Incoming Request Body: {}", JsonUtils.prettyPrintJson(requestBody.toString()));
     }
 }
